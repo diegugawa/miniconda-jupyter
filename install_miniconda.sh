@@ -3,15 +3,6 @@
 set -e
 #set -x
 
-# Show the usage
-if [[ "$1" == '--help' ]]; then
-    helpme
-    exit 0
-elif [[ "$1" != '--help' ]]; then
-    echo "ERROR: Type '--help' to see how to use this script"
-    helpme
-    exit 1
-fi
 
 helpme () {
     USAGE='
@@ -42,6 +33,15 @@ VENV                 The virtual environment specific to the packages that are g
     echo "${USAGE}"
 }
 
+# Show the usage
+if [[ "$1" == '--help' ]]; then
+    helpme
+    exit 0
+elif [[ "$1" != '--help' ]]; then
+    echo "ERROR: Type '--help' to see how to use this script"
+    helpme
+    exit 1
+fi
 
 miniconda_sanity () {
     # set default variables
