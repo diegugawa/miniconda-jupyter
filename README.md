@@ -2,6 +2,13 @@
 
 I am using docker to run the scripts inside a container and then connect to Jupyter Hub or Jupyter Lab from my local laptop.
 
+## Table of contents
+  * [Current list of supported environments](#current-list-of-supported-environments)
+  * [Using these scripts](#using-these-scripts)
+    + [Using install Miniconda](#using-install-miniconda)
+    + [Using Docker Jupyterhub](#using-docker-jupyterhub)
+    + [Using docker jupyterlab](#using-docker-jupyterlab)
+
 
 ## Current list of supported environments
 
@@ -64,6 +71,7 @@ The script `docker_jupyterhub.sh` does the following:
 4. Once Jupyter Hub has been installed it executes `docker exec -it` leaving you inside the container to play around.
 
 * Note: The container will continue running after exiting the shell.
+
 
 ### Using docker jupyterlab
 
