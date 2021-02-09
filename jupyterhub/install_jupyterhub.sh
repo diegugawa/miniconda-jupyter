@@ -33,9 +33,7 @@ jupyterhub_sanity () {
     else
         echo '
 
-
 Installing Jupyterhub now...
-
 
         '
     fi

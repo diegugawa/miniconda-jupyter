@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
-set -x
+#set -x
 
 #####################################################
 #                                                   #
@@ -29,23 +29,34 @@ jupyterlab_sanity () {
     else
         echo '
 
-
 Installing jupyterlab now...
-
 
         '
     fi
 }
 
-###### BEGINNING of jupyterlab section ######
+###### BEGINNING of JUPYTERLAB section ######
 jupyterlab_sanity
 
 export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
-TOKEN='TBnHTcjM9b1WNp7YVrKDQNWNj&j5'
+TOKEN="$( date | sha256sum | base64 | head -c 32 )"
+TEMP_DIR="$( mktemp -d -t jupyter-dirXXXXX )"
+
+echo "
+
+Use the following token to access the environment '""${TOKEN}""'.
+...and save it somewhere.
+
+The following directory has been created to store the notebooks '""${TEMP_DIR}""'
+The Notebooks in this directory will dissapear after you stop the container.
+
+"
 
 # Start jupyterlab in the background
-jupyter lab --ip=0.0.0.0 --allow-root --token="${TOKEN}" &
+"${MINICONDA_HOME}"/envs/"${VENV}"/bin/jupyter lab \
+    --allow-root \
+    --NotebookApp.ip=0.0.0.0 \
+    --NotebookApp.token="${TOKEN}" \
+    --NotebookApp.notebook_dir="${TEMP_DIR}" &
 
-echo "Using token ${TOKEN}"
-
-###### END of jupyterlab section ######
+###### END of JUPYTERLAB section ######
