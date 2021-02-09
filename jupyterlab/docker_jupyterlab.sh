@@ -3,15 +3,20 @@
 set -e
 #set -x
 
+builtin cd "$( dirname "${BASH_SOURCE[0]}" )"
+
 # Environment variables
-MINICONDA_HOME="/opt/leapyear/miniconda"
-MINICONDA_VERSION="$( cat 'miniconda_version.txt' )"
-REQUIREMENTS_FILE="/scripts/miniconda/requirements.txt"
+MINICONDA_HOME="/opt/miniconda"
+MINICONDA_VERSION="$( cat $( dirname "${PWD}" )/miniconda_version.txt )"
+REQUIREMENTS_FILE="/scripts/jupyterlab/requirements.txt"
 VENV="jupyterlab"
 
 # Container variables passed during creation
 CONTAINER_NAME="jupyterlab"
-CONTAINER_BASH_COMMAND="cp /scripts/install_miniconda.sh /tmp; chmod +x /tmp/install_miniconda.sh; /tmp/install_miniconda.sh"
+CONTAINER_BASH_COMMAND="cp /scripts/install_miniconda.sh /scripts/jupyterlab/install_jupyterlab.sh /tmp; \
+chmod +x /tmp/install_miniconda.sh /tmp/install_jupyterlab.sh; \
+/tmp/install_miniconda.sh; \
+/tmp/install_jupyterlab.sh" 
 
 # Run docker
 run_docker () {
@@ -23,9 +28,9 @@ run_docker () {
     -e "MINICONDA_VERSION=${MINICONDA_VERSION}" \
     -e "REQUIREMENTS_FILE=${REQUIREMENTS_FILE}" \
     -e "VENV=${VENV}" \
-    --volume "${PWD}":/scripts \
+    --volume "$(dirname "${PWD}" )":/scripts \
     "${OPERATING_SYSTEM}" /bin/bash
 }
 
 # Source the miniconda script
-. execute_docker.sh
+. "$( dirname "${PWD}" )"/source_docker.sh

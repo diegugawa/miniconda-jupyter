@@ -9,6 +9,14 @@ set -e
 #                                                   #
 #####################################################
 
+# Confirm there are no errors before running this script
+CHECK_ERRORS="$( echo $? )"
+if [[ "${CHECK_ERRORS}" -ne 0  ]];
+then
+    echo "Some errors were encountered before running this script. Execution has been aborted.";
+    exit 1;
+fi
+
 jupyterhub_sanity () {
     if [[ -z "${MINICONDA_HOME}" ]];
     then
@@ -33,11 +41,11 @@ Installing Jupyterhub now...
     fi
 }
 
-###### BEGINNING of JUPYTERHUB LEAPYEAR section ######
+###### BEGINNING of JUPYTERHUB section ######
 
 install_jupyterhub () {
     # Fixing bug in miniconda, where `npm` executable cannot be found in PATH
-    #export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
+    export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
 
     # Install configurable HTTP proxy for reverse URL and TLS
     "${MINICONDA_HOME}"/envs/"${VENV}"/bin/npm install -g configurable-http-proxy
@@ -55,11 +63,6 @@ configure_jupyterhub() {
     mkdir -p "${JUPYTERHUB_HOME}"/bin
     mkdir -p "${JUPYTERHUB_HOME}"/conf
 
-    #cp "${CORE_CERT_PATH}" /opt/leapyear/jupyterhub/certs
-    #cp "${LEAPYEAR_PUBLIC_KEY}" /opt/leapyear/jupyterhub/certs
-    #sudo chmod 600 /opt/leapyear/jupyterhub/certs/*.crt
-    #cp "${JUPYTERHUB_CONFIG_FILE}" /opt/leapyear/jupyterhub/conf
-
     # The script below will generate a 'jupyterhub_config.py' file if this is not found.
     # This is for debugging, but in reality I find it very tacky the idea of creating files from a script...
     cat > "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh <<'EOF'
@@ -67,18 +70,16 @@ configure_jupyterhub() {
 
 #set -ex pipefail
 
-if [[ -z "${MINICONDA_HOME}" ]];
+: ${MINICONDA_HOME:="/opt/miniconda"}
+: ${JUPYTERHUB_HOME:="${MINICONDA_HOME}/jupyterhub"}
+if ! type -P "conda" >/dev/null;
 then
-    MINICONDA_HOME="/opt/leapyear/miniconda"
-elif [[ -z "${JUPYTERHUB_HOME}" ]];
-then
-    JUPYTERHUB_HOME="${MINICONDA_HOME}/jupyterhub"
-elif ! type -P "conda" >/dev/null;
     source "${MINICONDA_HOME}"/etc/profile.d/conda.sh
 fi
 
 # Activate conda environment "jupyterhub"
 conda activate jupyterhub
+
 if [ ! -f "${JUPYTERHUB_HOME}/conf/jupyterhub_config.py" ];
 then
     cd "${JUPYTERHUB_HOME}/conf"
@@ -98,9 +99,9 @@ Creating local users for Jupyter Hub
     "
     for (( i=1; i<=5; i++ ))
     do
-      TEST_USER="user"
-      PASSWORD="$( date | sha256sum | base64 | head -c 32 )"
-      CREDENTIALS_FILE="/tmp/credentials.txt"
+      local TEST_USER="user"
+      local PASSWORD="$( date | sha256sum | base64 | head -c 32 )"
+      local CREDENTIALS_FILE="/tmp/credentials.txt"
       # Create the local users. Jupyterhub requires for all users to have a "home" directory
       useradd -m "${TEST_USER}${i}"
       echo "${TEST_USER}${i}:${PASSWORD}" | chpasswd
@@ -122,4 +123,4 @@ create_test_user
 # Start jupyterhub in the background
 bash "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh &
 
-###### END of JUPYTERHUB LEAPYEAR section ######
+###### END of JUPYTERHUB section ######

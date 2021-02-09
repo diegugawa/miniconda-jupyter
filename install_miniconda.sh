@@ -24,8 +24,8 @@ MINICONDA_VERSION    The version of miniconda that is going to be installed.
                      Default is '4.9.2'
 
 MINICONDA_HOME       This is the path where miniconda is going to be installed.
-                     Default in "linux" is '/opt'
-		     Default in "MacOS" is '${HOME}' (the user''s home folder)
+                     Default in "linux" is '/opt/miniconda'
+		             Default in "MacOS" is '${HOME}/miniconda' (the user''s home folder)
 
 VENV                 The virtual environment specific to the packages that are going to be installed
                      Default is 'myenv'
@@ -35,26 +35,25 @@ VENV                 The virtual environment specific to the packages that are g
 }
 
 # Show the usage
-if [[ "$1" == '--help' ]]; then
-    helpme
-    exit 0
-elif [[ "$1" != '--help' ]]; then
-    echo "ERROR: Type '--help' to see how to use this script"
-    helpme
-    exit 1
-fi
+#if [[ "$1" == '--help' ]]; then
+#    helpme
+#    exit 0
+#elif [[ "$1" != '--help' ]]; then
+#    echo "ERROR: Type '--help' to see how to use this script"
+#    helpme
+#    exit 1
+#fi
 
 miniconda_sanity () {
     # set default variables
     : ${MINICONDA_VERSION:='4.9.2'}
     : ${VENV:='myenv'}
     # Check the requirements file exists
-    : ${REQUIREMENTS_FILE:="$( dirname "${BASH_SOURCE[0]}" )/requirements.txt"}
+    : ${REQUIREMENTS_FILE:="requirements.txt"}
     if [[ ! -f "${REQUIREMENTS_FILE}" ]];
     then
         echo "File in path ${REQUIREMENTS_FILE} cannot be found."
-        helpme
-	exit 1
+	    exit 1
     fi
 }
 
@@ -97,14 +96,14 @@ main () {
     MACHINE_TYPE="$( uname -s )"
     case "${MACHINE_TYPE}" in
         Darwin* )
-            : ${MINICONDA_HOME:="${HOME}"}
+            : ${MINICONDA_HOME:="${HOME}/miniconda"}
             miniconda_sanity
             MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-MacOSX-x86_64.sh"
             announcement
             install_miniconda
             ;;
         Linux*)
-            : ${MINICONDA_HOME:='/opt'}
+            : ${MINICONDA_HOME:='/opt/miniconda'}
             miniconda_sanity
             MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-Linux-x86_64.sh"
             LINUX_TYPE="$( cat /etc/os-release | grep -i 'ID_LIKE' )"
@@ -143,4 +142,3 @@ main () {
 }
 
 main
-
