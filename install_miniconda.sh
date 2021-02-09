@@ -7,11 +7,12 @@ set -e
 helpme () {
     USAGE='
 
-Usage: Use "bash install_miniconda.sh --help" for more information.
-Combinations: bash install_miniconda.sh
+Usage: `bash install_miniconda.sh`
 
-Install miniconda from source.
-This script also can be sourced from other files from this repository or it can run on its own.
+Use "bash install_miniconda.sh --help" for more information.
+
+Description: Install miniconda from source.
+Additionally this script can be sourced from other files from this repository or it can run on its own.
 It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab. 
 
 Required:

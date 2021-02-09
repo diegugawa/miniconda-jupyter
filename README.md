@@ -16,6 +16,12 @@ I am using docker to run the scripts inside a container and then connect to Jupy
 
 1. The first script available in this repository is called `install_miniconda.sh`. This script allows you to install miniconda in Linux or MacOS. It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab.
     ```bash
+
+    Usage: `bash install_miniconda.sh`
+    Use "bash install_miniconda.sh --help" for more information.
+
+    Description: Install miniconda from source.
+
     Required:
     REQUIREMENTS_FILE    The file to install the packages during the miniconda installation for jupyterhub or jupyterlab
                          Default is "requirements.txt" loaded in the folder that this script is running.
