@@ -46,36 +46,42 @@ I am using docker to run the scripts inside a container and then connect to Jupy
 
 ### Using Docker Jupyterhub
 
-1. The script `docker_jupyterhub.sh` does the following:
+The script `docker_jupyterhub.sh` does the following:
 
-    1. Creates an Ubuntu "bionic" docker container by default. But it can additionally work in other operating systems, such as CentOS, and Amazon Linux if an argument for another image is passed during the bash execution.
-    * Optional arguments: `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>`
-    * For example:
+1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running.
+    ```bash
+    bash docker_jupyterhub.sh
+    ```
+    * If you want to use another Linux OS different than Ubuntu "bionic", you can use other arguments, such as `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>` and pass them as an argument. For example:
     ```bash
     bash docker_jupyterhub.sh amazonlinux:2
     ````
 
-    2. Sources the script `source_docker.sh` doing a lot of the docker magic.
+2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda` and eventually `install_jupyterhub.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Hub".
 
-    3. After the script above has been sourced, it runs the scripts `install_miniconda` and eventually `install_jupyterhub.sh`. These scripts update system packages, downloads `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Hub".
+3. As one of the last steps, it creates 5 temporary usernames and passwords that you can use to access an multiuse environment.
 
-    4. Once it has downloaded all of the packages, it executes `docker exec -it` leaving you inside the container to play around.
+4. Once Jupyter Hub has been installed it executes `docker exec -it` leaving you inside the container to play around.
+
+* Note: The container will continue running after exiting the shell.
 
 ### Using docker jupyterlab
 
-1. The script `docker_jupyterlab.sh` does the following:
+The script `docker_jupyterlab.sh` does the following:
 
-    1. Creates an Ubuntu "bionic" docker container by default. But it can additionally work in other operating systems, such as CentOS, and Amazon Linux if an argument for another image is passed during the bash execution.
-    * Optional arguments: `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>`
-    * For example:
+1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running.
+    ```bash
+    bash docker_jupyterlab.sh
+    ```
+    * If you want to use another Linux OS different than Ubuntu "bionic", you can use other arguments, such as `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>` and pass them as an argument. For example:
     ```bash
     bash docker_jupyterlab.sh amazonlinux:2
     ````
 
-    2. Sources the script `source_docker.sh` doing a lot of the docker magic.
+2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda` and eventually `install_jupyterlab.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Lab".
 
-    3. After the script above has been sourced, it runs the scripts `install_miniconda` and eventually `install_jupyterlab.sh`. This script update system packages, downloads `miniconda` and install the appropiate packages based on the file `requirements.txt`.
+3. As one of the last steps, it creates a temporary directory as well as a random "token" that you can use to connect from the URL.
 
-    4. Once it has downloaded all of the packages, it executes `docker exec -it` leaving you inside the container to play around.
+4. Once Jupyter Hub has been installed it executes `docker exec -it` leaving you inside the container to play around.
 
-
+* Note: The container will continue running after exiting the shell.
