@@ -1,16 +1,16 @@
-# Troubleshooting scripts for Miniconda
+# Install Jupyter Lab or Jupyter Hub with Miniconda
 
-I am using docker to run the scripts inside a container and then connect to jupyter hub from my local laptop.
+I am using docker to run the scripts inside a container and then connect to Jupyter Hub or Jupyter Lab from my local laptop.
 
 ## Current list of supported tests using Docker
 
-* Miniconda tests with docker
+* Jupyter Lab
 
 * Jupyter Hub "SystemdSpawner"
 
 ## Using the scripts
 
-> Note: The script `source_docker.sh` is needed for the scripts starting with `docker_jupyter...sh` to execute the logic inside the docker container.
+> Note: The script `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container.
 
 ### Using install Miniconda
 
