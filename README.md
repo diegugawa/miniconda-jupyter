@@ -5,9 +5,9 @@ I am using docker to run the scripts inside a container and then connect to Jupy
 ## Table of contents
   * [Current list of supported environments](#current-list-of-supported-environments)
   * [Using these scripts](#using-these-scripts)
-    + [Using install Miniconda](#using-install-miniconda)
     + [Using Docker Jupyterhub](#using-docker-jupyterhub)
     + [Using docker jupyterlab](#using-docker-jupyterlab)
+    + [Using install Miniconda](#using-install-miniconda)
 
 
 ## Current list of supported environments
