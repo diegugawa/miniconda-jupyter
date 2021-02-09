@@ -24,7 +24,7 @@ I am using docker to run the scripts inside a container and then connect to Jupy
 
     Required:
     REQUIREMENTS_FILE    The file to install the packages during the miniconda installation for jupyterhub or jupyterlab
-                         Default is "requirements.txt" loaded in the folder that this script is running.
+                         Default is "requirements.txt" located in the folder where this script is running IF you are running this script _on it's own_
 
     Optional environment variables:
     MINICONDA_VERSION    The version of miniconda that is going to be installed.
@@ -38,7 +38,7 @@ I am using docker to run the scripts inside a container and then connect to Jupy
                          Default is 'myenv'
     ```
 
-    * As you can see inside the script, these are the default values for the variables listed above. Because the "requirement file" is unique to the tests that you are hoping to run, the path to the file needs to be updated so the script doesn't exit during execution.
+    * NOTE: As you can see, because the "requirements" file is unique to each case, the path to the file needs to be updated so the script doesn't exit during execution.
 
 
 ### Using Docker Jupyterhub
