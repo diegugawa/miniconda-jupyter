@@ -57,7 +57,7 @@ The script `docker_jupyterhub.sh` does the following:
     bash docker_jupyterhub.sh amazonlinux:2
     ````
 
-2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda` and eventually `install_jupyterhub.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Hub".
+2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda.sh` and eventually `install_jupyterhub.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Hub".
 
 3. As one of the last steps, it creates 5 temporary usernames and passwords that you can use to access an multiuse environment.
 
@@ -78,7 +78,7 @@ The script `docker_jupyterlab.sh` does the following:
     bash docker_jupyterlab.sh amazonlinux:2
     ````
 
-2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda` and eventually `install_jupyterlab.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Lab".
+2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda.sh` and eventually `install_jupyterlab.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Lab".
 
 3. As one of the last steps, it creates a temporary directory as well as a random "token" that you can use to connect from the URL.
 
