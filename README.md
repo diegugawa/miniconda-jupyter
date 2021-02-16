@@ -26,7 +26,7 @@ I am using docker to run the scripts inside a container and then connect to Jupy
 
 The script `docker_jupyterhub.sh` does the following:
 
-1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running.
+1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running. It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab.
     ```bash
     bash docker_jupyterhub.sh
     ```
@@ -48,7 +48,7 @@ The script `docker_jupyterhub.sh` does the following:
 
 The script `docker_jupyterlab.sh` does the following:
 
-1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running.
+1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running. It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab.
     ```bash
     bash docker_jupyterlab.sh
     ```
@@ -70,17 +70,13 @@ The script `docker_jupyterlab.sh` does the following:
 
 > Use this script if you want to have a clean installation of Miniconda _with or without_ Docker.
 
-1. The first script available in this repository is called `install_miniconda.sh`. This script allows you to install miniconda in Linux or MacOS. It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab.
+1. The first script available in this repository is called `install_miniconda.sh`. This script allows you to install miniconda in Linux or MacOS.
     ```bash
 
     Usage: `bash install_miniconda.sh`
     Use "bash install_miniconda.sh --help" for more information.
 
     Description: Install miniconda from source.
-
-    Required:
-    REQUIREMENTS_FILE    The file to install the packages during the miniconda installation for jupyterhub or jupyterlab
-                         Default is "requirements.txt" located in the folder where this script is running IF you are running this script _on it's own_
 
     Optional environment variables:
     MINICONDA_VERSION    The version of miniconda that is going to be installed.

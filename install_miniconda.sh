@@ -13,19 +13,15 @@ Use "bash install_miniconda.sh --help" for more information.
 
 Description: Install miniconda from source.
 Additionally this script can be sourced from other files from this repository or it can run on its own.
-It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab. 
 
-Required:
-REQUIREMENTS_FILE    The file to install the packages during the miniconda installation for jupyterhub or jupyterlab 
-                     Default is "requirements.txt" loaded in the folder that this script is running.
-		     
+         
 Optional environment variables:
 MINICONDA_VERSION    The version of miniconda that is going to be installed.
                      Default is '4.9.2'
 
 MINICONDA_HOME       This is the path where miniconda is going to be installed.
                      Default in "linux" is '/opt/miniconda'
-		             Default in "MacOS" is '${HOME}/miniconda' (the user''s home folder)
+                     Default in "MacOS" is '${HOME}/miniconda' (the user''s home folder)
 
 VENV                 The virtual environment specific to the packages that are going to be installed
                      Default is 'myenv'
@@ -44,14 +40,6 @@ miniconda_sanity () {
     # set default variables
     : ${MINICONDA_VERSION:='4.9.2'}
     : ${VENV:='myenv'}
-    # Check the requirements file exists
-    : ${REQUIREMENTS_FILE:="requirements.txt"}
-    if [[ ! -f "${REQUIREMENTS_FILE}" ]];
-    then
-        echo "File in path ${REQUIREMENTS_FILE} cannot be found."
-        helpme
-	    exit 1
-    fi
 }
 
 # Announce this is running
@@ -80,9 +68,6 @@ install_miniconda() {
     "${MINICONDA_HOME}"/bin/conda config --system --set auto_update_conda false
     "${MINICONDA_HOME}"/bin/conda config --system --set show_channel_urls true
     "${MINICONDA_HOME}"/bin/conda config --system --set channel_priority strict
-
-    # Install packages from file
-    "${MINICONDA_HOME}"/bin/conda create -yq -n "${VENV}" --file "${REQUIREMENTS_FILE}"
 
     # Source environment
     source "${MINICONDA_HOME}"/bin/activate

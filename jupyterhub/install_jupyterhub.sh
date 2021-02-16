@@ -18,7 +18,13 @@ then
 fi
 
 jupyterhub_sanity () {
-    if [[ -z "${MINICONDA_HOME}" ]];
+    # Check the requirements file exists
+    : ${REQUIREMENTS_FILE:="requirements.txt"}
+    if [[ ! -f "${REQUIREMENTS_FILE}" ]];
+    then
+        echo "File in path ${REQUIREMENTS_FILE} cannot be found."
+        exit 1
+    elif [[ -z "${MINICONDA_HOME}" ]];
     then
         echo "variable MINICONDA_HOME is not defined"
         exit 1
@@ -42,6 +48,9 @@ Installing Jupyterhub now...
 ###### BEGINNING of JUPYTERHUB section ######
 
 install_jupyterhub () {
+    # Install packages from file
+    "${MINICONDA_HOME}"/bin/conda create -yq -n "${VENV}" --file "${REQUIREMENTS_FILE}"
+
     # Fixing bug in miniconda, where `npm` executable cannot be found in PATH
     export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
 

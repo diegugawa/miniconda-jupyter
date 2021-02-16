@@ -34,9 +34,13 @@ Installing jupyterlab now...
         '
     fi
 }
+jupyterlab_sanity
 
 ###### BEGINNING of JUPYTERLAB section ######
-jupyterlab_sanity
+
+# Install packages from file
+"${MINICONDA_HOME}"/bin/conda create -yq -n "${VENV}" --file "${REQUIREMENTS_FILE}"
+
 
 export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
 TOKEN="$( date | sha256sum | base64 | head -c 32 )"
