@@ -40,6 +40,7 @@ miniconda_sanity () {
     # set default variables
     : ${MINICONDA_VERSION:='4.9.2'}
     : ${VENV:='myenv'}
+    export MINICONDA_VERSION VENV 
 }
 
 # Announce this is running
@@ -79,6 +80,7 @@ main () {
     case "${MACHINE_TYPE}" in
         Darwin* )
             : ${MINICONDA_HOME:="${HOME}/miniconda"}
+            export MINICONDA_HOME
             miniconda_sanity
             MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-MacOSX-x86_64.sh"
             announcement
@@ -86,6 +88,7 @@ main () {
             ;;
         Linux*)
             : ${MINICONDA_HOME:='/opt/miniconda'}
+            export MINICONDA_HOME
             miniconda_sanity
             MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-Linux-x86_64.sh"
             LINUX_TYPE="$( cat /etc/os-release | grep -i 'ID_LIKE' )"

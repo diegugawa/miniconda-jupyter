@@ -5,7 +5,7 @@ set -e
 
 #####################################################
 #                                                   #
-# Run this script after using `install_miniconda.sh #
+#    Run this script after install_miniconda.sh     #
 #                                                   #
 #####################################################
 
@@ -17,9 +17,12 @@ then
     exit 1;
 fi
 
+HERE="$( builtin cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TOP="$( builtin cd "$( dirname "${HERE}" )" && pwd )"
+
 jupyterhub_sanity () {
     # Check the requirements file exists
-    : ${REQUIREMENTS_FILE:="requirements.txt"}
+    : ${REQUIREMENTS_FILE:="${HERE}/requirements.txt"}
     if [[ ! -f "${REQUIREMENTS_FILE}" ]];
     then
         echo "File in path ${REQUIREMENTS_FILE} cannot be found."
