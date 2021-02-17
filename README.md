@@ -48,7 +48,7 @@ These scripts will read either of the `requirements.txt` files from these folder
 
 * `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container. It allows the user to select different versions of an operating system for testing purposes. This must be used with the _docker_ scripts that I'm mentioning next. **This script cannot be used alone.**
 
-* `docker_jupyterhub.sh` or `docker_jupyterlab.sh` allow the user to create a docker container for Jupyter Hub or Lab, invoking all of the files listed above plus `install_jupyterhub.sh` or `install_jupyterlab.sh` accordingly.
+* `docker_jupyterhub.sh` or `docker_jupyterlab.sh` allows the user to create a docker container for Jupyter Hub or Lab, by invoking all of the files listed above plus `install_jupyterhub.sh` or `install_jupyterlab.sh` accordingly.
 When either of these applications is being installed in the container, the container will use the default port(s) required for these applications; however the local host will be EXPOSING random ports instead of the default ports for these apps. 
 The reason for doing this, it's so in the event that these scripts are used for testing, we can avoid collision errors in the local host running docker.  For convenience I have provided some logic to print the list of ports and how those are accesible after the scripts has been ran.
 As mentioned in the bullet above, when using these scripts you can select the operating system that you want the container to be running. By default I am using **Ubuntu bionic**.

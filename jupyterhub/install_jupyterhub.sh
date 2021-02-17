@@ -69,7 +69,7 @@ install_jupyterhub () {
 
 configure_jupyterhub() {
     # The script below will generate a 'jupyterhub_config.py' file if this is not found.
-    # This is for debugging, but in reality I find it very tacky the idea of creating files from a script...
+    # This is for debugging, but in reality I find very tacky the idea of creating files from a script...
     if [[ ! -f "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh ]];
     then
         cat > "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh <<'EOF'
@@ -77,8 +77,27 @@ configure_jupyterhub() {
 
 #set -ex pipefail
 
-: ${MINICONDA_HOME:="/opt/miniconda"}
+if [[ -z "${MINICONDA_HOME}" ]]
+then
+    MACHINE_TYPE="$( uname -s )"
+    case "${MACHINE_TYPE}" in
+        Darwin* )
+            : ${MINICONDA_HOME:="${HOME}/miniconda"}
+            export MINICONDA_HOME
+            ;;
+        Linux*)
+            : ${MINICONDA_HOME:='/opt/miniconda'}
+            export MINICONDA_HOME
+            ;;
+        * )
+            echo "This OS is currently not supported. Exiting script."
+            exit 1
+            ;;
+    esac
+fi
+
 : ${JUPYTERHUB_HOME:="${MINICONDA_HOME}/jupyterhub"}
+
 if ! type -P "conda" >/dev/null;
 then
     source "${MINICONDA_HOME}"/etc/profile.d/conda.sh

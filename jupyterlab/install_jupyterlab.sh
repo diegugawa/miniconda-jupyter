@@ -86,10 +86,12 @@ then
             export MINICONDA_HOME
             ;;
         * )
-            echo "This OS is currently not supported. Exiting Miniconda installation."
+            echo "This OS is currently not supported. Exiting script."
             exit 1
             ;;
     esac
+fi
+
 if ! type -P "conda" >/dev/null;
 then
     source "${MINICONDA_HOME}"/etc/profile.d/conda.sh
