@@ -10,8 +10,8 @@ TOP="$( builtin cd "$( dirname "${HERE}" )" && pwd )"
 MINICONDA_VERSION="$( cat "${TOP}"/miniconda_version.txt )"
 MINICONDA_HOME="/opt/miniconda"
 JUPYTERHUB_HOME="${MINICONDA_HOME}/jupyterhub"
-REQUIREMENTS_FILE="/scripts/jupyterhub/requirements.txt"
 VENV="jupyterhub"
+REQUIREMENTS_FILE="${HERE}/requirements.txt"
 
 # Container variables passed during creation
 CONTAINER_NAME="jupyterhub"
@@ -21,7 +21,6 @@ chmod +x /tmp/install_miniconda.sh /tmp/install_jupyterhub.sh; \
 /tmp/install_jupyterhub.sh" 
 
 # Sanity checking
-: ${REQUIREMENTS_FILE:="${HERE}/requirements.txt"}
 if [[ ! -f "${REQUIREMENTS_FILE}" ]];
 then
     echo "File in path ${REQUIREMENTS_FILE} cannot be found."

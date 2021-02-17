@@ -68,14 +68,11 @@ install_jupyterhub () {
 }
 
 configure_jupyterhub() {
-    # System setup of jupyterhub
-    mkdir -p "${JUPYTERHUB_HOME}"/certs
-    mkdir -p "${JUPYTERHUB_HOME}"/bin
-    mkdir -p "${JUPYTERHUB_HOME}"/conf
-
     # The script below will generate a 'jupyterhub_config.py' file if this is not found.
     # This is for debugging, but in reality I find it very tacky the idea of creating files from a script...
-    cat > "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh <<'EOF'
+    if [[ ! -f "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh ]];
+    then
+        cat > "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh <<'EOF'
 #!/usr/bin/env bash
 
 #set -ex pipefail
@@ -98,6 +95,7 @@ then
 fi
 exec jupyterhub -f "${JUPYTERHUB_HOME}/conf/jupyterhub_config.py"
 EOF
+    fi
 }
 
 # Create some local Jupyter Hub users to login

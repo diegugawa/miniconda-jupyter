@@ -1,93 +1,75 @@
-# Install Jupyter Lab or Jupyter Hub with Miniconda
+# Miniconda with Jupyter Hub or Jupyter Lab
 
-I am using docker to run the scripts inside a container and then connect to Jupyter Hub or Jupyter Lab from my local laptop.
+Using the scripts in this project users can install Miniconda in either Linux or Mac, and later install Jupyter Hub or Jupyter Lab.
 
-## Table of contents
-  * [Current list of supported environments](#current-list-of-supported-environments)
-  * [Using these scripts](#using-these-scripts)
-    + [Using Docker Jupyterhub](#using-docker-jupyterhub)
-    + [Using docker jupyterlab](#using-docker-jupyterlab)
-    + [Using install Miniconda](#using-install-miniconda)
+The current list of supported environments
 
-
-## Current list of supported environments
-
+* Miniconda, with default python 3.7 for global environment
 * Jupyter Lab
-
 * Jupyter Hub "SystemdSpawner"
 
+## Table of contents
 
-## Using these scripts
+- [Miniconda with Jupyter Hub or Jupyter Lab](#miniconda-with-jupyter-hub-or-jupyter-lab)
+  * [Table of contents](#table-of-contents)
+  * [Running these applications in containers](#running-these-applications-in-containers)
+  * [Installing Jupyter Hub or Lab](#installing-jupyter-hub-or-lab)
+  * [Information about the files and what they do](#information-about-the-files-and-what-they-do)
 
-> Note: The script `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container.
+## Running these applications in containers
+
+Under the folders "jupyterhub" and "jupyterlab" a user can run the scripts `docker_jupyterhub.sh` or `docker_jupyterlab.sh` to build docker container for either of these applications.
+The logic in these scripts will download all of the necessary packages listed inside `requirements.txt`. This file is unique to each application and packages can be updated or changed according to the user.
 
 
-### Using Docker Jupyterhub
+## Installing Jupyter Hub or Lab 
 
-The script `docker_jupyterhub.sh` does the following:
+In the event that a user does not want to use containers to install Miniconda with Jupyter Hub or Lab, the user can do the following:
 
-1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running. It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab.
+1. Install miniconda by running `bash install_miniconda.sh`
+This will install the base script to run miniconda, and export the necessary variables to later use them with other scripts.
+
+2. Install the applications Jupyter Hub or Lab
+After Miniconda has been install, now you can access one of the folders `jupyterhub` or `jupyterlab` and then run the script for either of these projects:
+    * For Jupyter Lab run `install_jupyterlab.sh`
+    * For Jupyter Hub run `install_jupyterhub.sh`
+
+These scripts will read either of the `requirements.txt` files from these folders. Remember to update the file with the packages that make sense to you.
+
+
+## Information about the files and what they do
+
+* `install_miniconda.sh` is the main script that allows to install Miniconda for Mac or Linux
+
+* `miniconda_version.txt` is a file that provides the version of miniconda that is going to be installed. If this file is not present, `install_miniconda.sh` will install the version 4.9.2 by default. The version can be changed to work with any version of Miniconda that you would want.
+
+* `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container. I allows the user to select different versions of an operating system for testing purposes. This must be used with the docker scripts
+
+* `docker_jupyterhub.sh` or `docker_jupyterlab.sh` allow the user to create a docker container for Jupyter Hub or Lab, invoking all of the files listed above plus `install_jupyterhub.sh` or `install_jupyterlab.sh` accordingly.
+When these application are being installed in the container, the container will use the default ports required for these applications, however the local host will be EXPOSING random ports instead of the default for these apps. The reason for doing this, is so in the event that these scripts are used for testing the current ports used in the host are not overrided by the container or simply to avoid collision errors.
+For convenience I have provided some logic to generate the list of ports and how those are accesible after the scripts have been ran.
+As mentioned in the bullet above, when using these scripts you can select the operating system that you want the container to be running. By default I am using **Ubuntu bionic**.
+In the following section you can see how to use the scripts for docker containers, and alternatively select the operating system that you want:
     ```bash
     bash docker_jupyterhub.sh
     ```
-    * If you want to use another Linux OS different than Ubuntu "bionic", you can use other arguments, such as `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>` and pass them as an argument. For example:
+
+    * In order to use another Linux OS different than Ubuntu "bionic", you can use other arguments, such as `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>`. For example:
     ```bash
     bash docker_jupyterhub.sh amazonlinux:2
     ````
+Once either of these applications have been installed, the script executes `docker exec -it` leaving you inside the container to play around.
 
-2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda.sh` and eventually `install_jupyterhub.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Hub".
+* `install_jupyterhub.sh` as part of the features mentioned above, this script will install Jupyter Hub and create 5 usernames and passwords in the host to access an multiuser environment. If you _do not_ wish to assign random users to the environment, comment out the function at the end of the script.
 
-3. As one of the last steps, it creates 5 temporary usernames and passwords that you can use to access an multiuse environment.
-
-4. Once Jupyter Hub has been installed it executes `docker exec -it` leaving you inside the container to play around.
-
-* Note: The container will continue running after exiting the shell.
-
-
-### Using docker jupyterlab
-
-The script `docker_jupyterlab.sh` does the following:
-
-1. Creates an Ubuntu "bionic" docker container, using random ports that later are provided to you once the script has finished running. It uses the file "requirements.txt" to install the packages during the miniconda installation for jupyterhub or jupyterlab.
+* `install_jupyterlab.sh` as part of the features mentioned above, this script will create also a random token to access Jupyter Lab environment and create a temporary directory that is used to stored the notebooks. These values can be overrided by simply passing environment variables from your host machine or overriding those in the script.
+    * The current variables look like this:
     ```bash
-    bash docker_jupyterlab.sh
+    : ${TOKEN:="$( date | sha256sum | base64 | head -c 32 )"}
+    : ${NOTEBOOK_DIR:="$( mktemp -d -t jupyter-dirXXXXX )"}
     ```
-    * If you want to use another Linux OS different than Ubuntu "bionic", you can use other arguments, such as `centos:<VERSION>` , `amazonlinux:<VERSION>`, `ubuntu:<VERSION>` and pass them as an argument. For example:
+    So you can either pass an environment variable like this before you run the script or writing those at the top the installation script.
     ```bash
-    bash docker_jupyterlab.sh amazonlinux:2
-    ````
-
-2. During execution, it runs the scripts `source_docker.sh`, `install_miniconda.sh` and eventually `install_jupyterlab.sh`. These scripts update system packages, download `miniconda` and install the appropiate packages based on the file `requirements.txt` including "Jupyter Lab".
-
-3. As one of the last steps, it creates a temporary directory as well as a random "token" that you can use to connect from the URL.
-
-4. Once Jupyter Hub has been installed it executes `docker exec -it` leaving you inside the container to play around.
-
-* Note: The container will continue running after exiting the shell.
-
-
-### Using install Miniconda
-
-> Use this script if you want to have a clean installation of Miniconda _with or without_ Docker.
-
-1. The first script available in this repository is called `install_miniconda.sh`. This script allows you to install miniconda in Linux or MacOS.
-    ```bash
-
-    Usage: `bash install_miniconda.sh`
-    Use "bash install_miniconda.sh --help" for more information.
-
-    Description: Install miniconda from source.
-
-    Optional environment variables:
-    MINICONDA_VERSION    The version of miniconda that is going to be installed.
-                         Default is '4.9.2'
-
-    MINICONDA_HOME       This is the path where miniconda is going to be installed.
-                         Default in "linux" is '/opt
-                         Default in "MacOS" is '${HOME}' (the user''s home folder)
-
-    VENV                 The virtual environment specific to the packages that are going to be installed
-                         Default is 'myenv'
+    export TOKEN="mysuperawesometoken12345"
+    export NOTEBOOK_DIR="/myhomedirectory/notebooks"
     ```
-
-    * NOTE: As you can see, because the "requirements" file is unique to each case, the path to the file needs to be updated so the script doesn't exit during execution.

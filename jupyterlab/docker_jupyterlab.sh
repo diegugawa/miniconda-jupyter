@@ -10,6 +10,7 @@ TOP="$( builtin cd "$( dirname "${HERE}" )" && pwd )"
 MINICONDA_VERSION="$( cat "${TOP}"/miniconda_version.txt )"
 MINICONDA_HOME="/opt/miniconda"
 VENV="jupyterlab"
+REQUIREMENTS_FILE="${HERE}/requirements.txt"
 
 # Container variables passed during creation
 CONTAINER_NAME="jupyterlab"
@@ -19,7 +20,6 @@ chmod +x /tmp/install_miniconda.sh /tmp/install_jupyterlab.sh; \
 /tmp/install_jupyterlab.sh" 
 
 # Sanity checking
-: ${REQUIREMENTS_FILE:="${HERE}/requirements.txt"}
 if [[ ! -f "${REQUIREMENTS_FILE}" ]];
 then
     echo "File in path ${REQUIREMENTS_FILE} cannot be found."
