@@ -1,8 +1,9 @@
 # Miniconda with Jupyter Hub or Jupyter Lab
 
-Using the scripts in this project users can install Miniconda in either Linux or Mac, and later install Jupyter Hub or Jupyter Lab.
+By using some of the scripts in this project users can install Miniconda in either Linux or Mac. Once Miniconda has been installed, they can later install Jupyter Hub or Jupyter Lab.
+This can be done automatically using containers or manually by sourcing these scripts.
 
-The current list of supported environments
+The current list of supported environments is the following:
 
 * Miniconda, with default python 3.7 for global environment
 * Jupyter Lab
