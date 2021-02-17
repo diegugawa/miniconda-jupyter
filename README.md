@@ -13,14 +13,16 @@ The current list of supported environments is the following:
 
 - [Miniconda with Jupyter Hub or Jupyter Lab](#miniconda-with-jupyter-hub-or-jupyter-lab)
   * [Table of contents](#table-of-contents)
-  * [Running these applications in containers](#running-these-applications-in-containers)
+  * [Running Jupyter Hub or Lab in containers](#running-jupyter-hub-or-lab-in-containers)
   * [Installing Jupyter Hub or Lab](#installing-jupyter-hub-or-lab)
   * [Information about the files and what they do](#information-about-the-files-and-what-they-do)
 
-## Running these applications in containers
+## Running Jupyter Hub or Lab in containers
 
-Under the folders "jupyterhub" and "jupyterlab" a user can run the scripts `docker_jupyterhub.sh` or `docker_jupyterlab.sh` to build docker container for either of these applications.
-The logic in these scripts will download all of the necessary packages listed inside `requirements.txt`. This file is unique to each application and packages can be updated or changed according to the user.
+Under the folders "jupyterhub" and "jupyterlab" a user can run the scripts:
+* `docker_jupyterhub.sh` to build a docker container installing Jupyter Hub.
+* or `docker_jupyterlab.sh` to build a docker container Jupyter Lab.
+These scripts will download all of the necessary packages listed inside `requirements.txt`. This file is unique to each application and packages can be updated or changed according to the user.
 
 
 ## Installing Jupyter Hub or Lab 
@@ -42,9 +44,9 @@ These scripts will read either of the `requirements.txt` files from these folder
 
 * `install_miniconda.sh` is the main script that allows to install Miniconda for Mac or Linux
 
-* `miniconda_version.txt` is a file that provides the version of miniconda that is going to be installed. If this file is not present, `install_miniconda.sh` will install the version 4.9.2 by default. The version can be changed to work with any version of Miniconda that you would want.
+* `miniconda_version.txt` is a file that provides the version of miniconda that is going to be installed. If this file is not present when using the script above, `install_miniconda.sh` will install the version 4.9.2 by default. The version can be changed to work with any version of Miniconda that you want.
 
-* `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container. It allows the user to select different versions of an operating system for testing purposes. This must be used with the _docker_ scripts that I'm mentioning next.
+* `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container. It allows the user to select different versions of an operating system for testing purposes. This must be used with the _docker_ scripts that I'm mentioning next. **This script cannot be used alone.**
 
 * `docker_jupyterhub.sh` or `docker_jupyterlab.sh` allow the user to create a docker container for Jupyter Hub or Lab, invoking all of the files listed above plus `install_jupyterhub.sh` or `install_jupyterlab.sh` accordingly.
 When either of these applications is being installed in the container, the container will use the default port(s) required for these applications; however the local host will be EXPOSING random ports instead of the default ports for these apps. 
