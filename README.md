@@ -61,10 +61,10 @@ In the following section you can see how to use the scripts for docker container
     ````
 Once either of these applications have been installed, the script executes `docker exec -it` leaving you inside the container to play around.
 
-    * **NOTE:** Every time that `docker_jupyterhub.sh` or `docker_jupyterlab.sh` is executed, the script will stop and remove the previous container to avoid a name collision with Docker. If you want to have multiple environments of the same application, I recommend you to change the variable before executing the script. This can be done from your shell by simply using environment variables. For example:
-    ```bash
-    export CONTAINER_NAME="test-centos8" && bash docker_jupyterlab.sh centos:8
-    ```
+**NOTE:** Every time that `docker_jupyterhub.sh` or `docker_jupyterlab.sh` is executed, the script will stop and remove the previous container to avoid a name collision with Docker. If you want to have multiple environments of the same application, I recommend you to change the variable before executing the script. This can be done from your shell by simply using environment variables. For example:
+```bash
+export CONTAINER_NAME="test-centos8" && bash docker_jupyterlab.sh centos:8
+```
 
 * `install_jupyterhub.sh` as part of the features mentioned above, this script will install Jupyter Hub and create 5 usernames and passwords in the host to access an multiuser environment. If you _do not_ wish to assign random users to the environment, comment out the function at the end of the script.
 
