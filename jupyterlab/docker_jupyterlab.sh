@@ -13,7 +13,7 @@ VENV="jupyterlab"
 REQUIREMENTS_FILE="${HERE}/requirements.txt"
 
 # Container variables passed during creation
-CONTAINER_NAME="jupyterlab"
+: ${CONTAINER_NAME:="jupyterlab"}
 CONTAINER_BASH_COMMAND="cp /scripts/install_miniconda.sh /scripts/jupyterlab/install_jupyterlab.sh /scripts/jupyterlab/requirements.txt /tmp; \
 chmod +x /tmp/install_miniconda.sh /tmp/install_jupyterlab.sh; \
 /tmp/install_miniconda.sh; \

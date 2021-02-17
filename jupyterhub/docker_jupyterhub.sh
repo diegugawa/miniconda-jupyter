@@ -14,7 +14,7 @@ VENV="jupyterhub"
 REQUIREMENTS_FILE="${HERE}/requirements.txt"
 
 # Container variables passed during creation
-CONTAINER_NAME="jupyterhub"
+: ${CONTAINER_NAME:="jupyterhub"}
 CONTAINER_BASH_COMMAND="cp /scripts/install_miniconda.sh /scripts/jupyterhub/install_jupyterhub.sh /scripts/jupyterhub/requirements.txt /tmp; \
 chmod +x /tmp/install_miniconda.sh /tmp/install_jupyterhub.sh; \
 /tmp/install_miniconda.sh; \

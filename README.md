@@ -44,11 +44,11 @@ These scripts will read either of the `requirements.txt` files from these folder
 
 * `miniconda_version.txt` is a file that provides the version of miniconda that is going to be installed. If this file is not present, `install_miniconda.sh` will install the version 4.9.2 by default. The version can be changed to work with any version of Miniconda that you would want.
 
-* `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container. I allows the user to select different versions of an operating system for testing purposes. This must be used with the docker scripts
+* `source_docker.sh` is needed for the scripts starting with `docker_jupyter*.sh` to execute the logic inside the docker container. It allows the user to select different versions of an operating system for testing purposes. This must be used with the _docker_ scripts that I'm mentioning next.
 
 * `docker_jupyterhub.sh` or `docker_jupyterlab.sh` allow the user to create a docker container for Jupyter Hub or Lab, invoking all of the files listed above plus `install_jupyterhub.sh` or `install_jupyterlab.sh` accordingly.
-When these application are being installed in the container, the container will use the default ports required for these applications, however the local host will be EXPOSING random ports instead of the default for these apps. The reason for doing this, is so in the event that these scripts are used for testing the current ports used in the host are not overrided by the container or simply to avoid collision errors.
-For convenience I have provided some logic to generate the list of ports and how those are accesible after the scripts have been ran.
+When either of these applications is being installed in the container, the container will use the default port(s) required for these applications; however the local host will be EXPOSING random ports instead of the default ports for these apps. 
+The reason for doing this, it's so in the event that these scripts are used for testing, we can avoid collision errors in the local host running docker.  For convenience I have provided some logic to print the list of ports and how those are accesible after the scripts has been ran.
 As mentioned in the bullet above, when using these scripts you can select the operating system that you want the container to be running. By default I am using **Ubuntu bionic**.
 In the following section you can see how to use the scripts for docker containers, and alternatively select the operating system that you want:
     ```bash
@@ -60,6 +60,11 @@ In the following section you can see how to use the scripts for docker container
     bash docker_jupyterhub.sh amazonlinux:2
     ````
 Once either of these applications have been installed, the script executes `docker exec -it` leaving you inside the container to play around.
+
+**NOTE:** Every time that `docker_jupyterhub.sh` or `docker_jupyterlab.sh` is executed, the script will stop and remove the previous container to avoid a name collision with Docker. If you want to have multiple environments of the same application, I recommend you to change the variable before executing the script. This can be done from your shell by simply using environment variables. For example:
+    ```bash
+    export CONTAINER_NAME="test-centos8" && bash docker_jupyterlab.sh centos:8
+    ```
 
 * `install_jupyterhub.sh` as part of the features mentioned above, this script will install Jupyter Hub and create 5 usernames and passwords in the host to access an multiuser environment. If you _do not_ wish to assign random users to the environment, comment out the function at the end of the script.
 
