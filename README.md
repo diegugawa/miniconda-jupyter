@@ -69,7 +69,7 @@ Once either of these applications have been installed, the script executes `dock
     : ${TOKEN:="$( date | sha256sum | base64 | head -c 32 )"}
     : ${NOTEBOOK_DIR:="$( mktemp -d -t jupyter-dirXXXXX )"}
     ```
-    So you can either pass an environment variable like this before you run the script or writing those at the top the installation script.
+    So you can either pass an environment variable like this before you run the script or write them at the top the installation script to override the default values above.
     ```bash
     export TOKEN="mysuperawesometoken12345"
     export NOTEBOOK_DIR="/myhomedirectory/notebooks"
