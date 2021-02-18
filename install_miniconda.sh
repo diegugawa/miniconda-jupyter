@@ -58,8 +58,7 @@ Stay back and relax...
 # Install miniconda
 install_miniconda() {
     # DO NOT USER ANACONDA REPO, IT HAS ISSUES. Use only "continuum" which is recommended by Jupyter.
-    curl -L https://repo.continuum.io/miniconda/"${MINICONDA_INSTALLER}" \
-    -o /tmp/"${MINICONDA_INSTALLER}"
+    curl -L https://repo.continuum.io/miniconda/"${MINICONDA_INSTALLER}" -o /tmp/"${MINICONDA_INSTALLER}"
     chmod +x "/tmp/${MINICONDA_INSTALLER}"
     bash /tmp/"${MINICONDA_INSTALLER}" -f -b -p "${MINICONDA_HOME}"
     export PATH="${MINICONDA_HOME}/bin:$PATH"
