@@ -4,10 +4,18 @@ set -e
 #set -x
 
 #
-# THIS SCRIPT IS NOT MEANT TO RUN ALONE. IT SHOULD BE SOURCE.
+# THIS SCRIPT IS NOT MEANT TO RUN ALONE. IT SHOULD BE SOURCED.
 #
 
 OPERATING_SYSTEM="$1"
+
+# Confirm there are no errors before running this script
+CHECK_ERRORS="$( echo $? )"
+if [[ "${CHECK_ERRORS}" -ne 0  ]];
+then
+    echo "Some errors were encountered before running this script. Execution has been aborted.";
+    exit 1;
+fi
 
 docker_sanity () {
     # set default version of miniconda
@@ -64,7 +72,6 @@ container_ports () {
       CONTAINER_PORT="$( echo "${p}" | cut -d "-" -f 1 )"
       HOST_PORT="$( echo "${p}" | cut -d "-" -f 2 )"
       echo "
-
 NOTICE: The port ${CONTAINER_PORT} from the container '""${CONTAINER_NAME}""' is accessible from the URL http://${HOST_PORT} in your local host.
       "
     done
@@ -73,10 +80,7 @@ NOTICE: The port ${CONTAINER_PORT} from the container '""${CONTAINER_NAME}""' is
 execute_container () {
     echo "
 
-
-Installation has been completed. Entering the container shell..
-
-
+Installation has been completed. Entering the container shell...
     "
     docker exec -it "${CONTAINER_NAME}" /bin/bash
 }

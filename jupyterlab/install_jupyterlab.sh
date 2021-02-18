@@ -47,14 +47,14 @@ Installing jupyterlab now...
 ###### BEGINNING of JUPYTERLAB section ######
 
 install_jupyterlab () {
-# Install packages from file
-"${MINICONDA_HOME}"/bin/conda create -yq -n "${VENV}" --file "${REQUIREMENTS_FILE}"
+    # Install packages from file
+    "${MINICONDA_HOME}"/bin/conda create -yq -n "${VENV}" --file "${REQUIREMENTS_FILE}"
 
-export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
-: ${TOKEN:="$( date | sha256sum | base64 | head -c 32 )"}
-: ${NOTEBOOK_DIR:="$( mktemp -d -t jupyter-dirXXXXX )"}
+    export PATH="${MINICONDA_HOME}/envs/${VENV}/bin:$PATH"
+    : ${TOKEN:="$( date | sha256sum | base64 | head -c 32 )"}
+    : ${NOTEBOOK_DIR:="$( mktemp -d -t jupyter-dirXXXXX )"}
 
-echo "
+    echo "
 
 Use the following token to access the environment '""${TOKEN}""'.
 ...and save it somewhere.
@@ -62,57 +62,38 @@ Use the following token to access the environment '""${TOKEN}""'.
 The following directory has been created to store the notebooks '""${NOTEBOOK_DIR}""'
 If you are running this in a container, the Notebooks in this directory will dissapear after you stop the container.
 
-"
+    "
 }
 
-configure_jupyterlab () {
-    if [[ ! -f "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh ]];
-    then
-        cat > "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh <<'EOF'
+jupyterlab_startupscript () {
+    # Create a file to start jupyter lab
+    cat > "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh <<EOF
 #!/usr/bin/env bash
 
 #set -ex pipefail
 
-if [[ -z "${MINICONDA_HOME}" ]]
-then
-    MACHINE_TYPE="$( uname -s )"
-    case "${MACHINE_TYPE}" in
-        Darwin* )
-            : ${MINICONDA_HOME:="${HOME}/miniconda"}
-            export MINICONDA_HOME
-            ;;
-        Linux*)
-            : ${MINICONDA_HOME:='/opt/miniconda'}
-            export MINICONDA_HOME
-            ;;
-        * )
-            echo "This OS is currently not supported. Exiting script."
-            exit 1
-            ;;
-    esac
-fi
-
 if ! type -P "conda" >/dev/null;
 then
-    source "${MINICONDA_HOME}"/etc/profile.d/conda.sh
+    source "${MINICONDA_HOME}/etc/profile.d/conda.sh"
 fi
 
 # Activate conda environment
 conda activate
 
 # Start jupyterlab in the background
-"${MINICONDA_HOME}"/envs/"${VENV}"/bin/jupyter lab \
-    --allow-root \
-    --NotebookApp.ip=0.0.0.0 \
-    --NotebookApp.token="${TOKEN}" \
-    --NotebookApp.notebook_dir="${NOTEBOOK_DIR}"
+${MINICONDA_HOME}/envs/${VENV}/bin/jupyter lab \
+  --allow-root \
+  --NotebookApp.ip=0.0.0.0 \
+  --NotebookApp.token="${TOKEN}" \
+  --NotebookApp.notebook_dir="${NOTEBOOK_DIR}" &
+
+echo "Starting Jupyter Lab in the background. Ignore any new lines."
 EOF
-    fi
 }
 
 jupyterlab_sanity
 install_jupyterlab
-configure_jupyterlab
+jupyterlab_startupscript
 
 # Start jupyterlab in the background
 bash "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh &

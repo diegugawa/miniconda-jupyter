@@ -13,11 +13,11 @@ The current list of supported environments is the following:
 
 - [Miniconda with Jupyter Hub or Jupyter Lab](#miniconda-with-jupyter-hub-or-jupyter-lab)
   * [Table of contents](#table-of-contents)
-  * [Running Jupyter Hub or Lab in containers](#running-jupyter-hub-or-lab-in-containers)
-  * [Installing Jupyter Hub or Lab](#installing-jupyter-hub-or-lab)
+  * [Running Jupyter Hub or Lab in Docker](#running-jupyter-hub-or-lab-in-docker)
+  * [Installing Jupyter Hub or Lab without Docker](#installing-jupyter-hub-or-lab-without-docker)
   * [Information about the files and what they do](#information-about-the-files-and-what-they-do)
 
-## Running Jupyter Hub or Lab in containers
+## Running Jupyter Hub or Lab in Docker
 
 Under the folders "jupyterhub" and "jupyterlab" a user can run the scripts:
 * `docker_jupyterhub.sh` to build a docker container installing Jupyter Hub.
@@ -25,7 +25,7 @@ Under the folders "jupyterhub" and "jupyterlab" a user can run the scripts:
 These scripts will download all of the necessary packages listed inside `requirements.txt`. This file is unique to each application and packages can be updated or changed according to the user.
 
 
-## Installing Jupyter Hub or Lab 
+## Installing Jupyter Hub or Lab without Docker
 
 In the event that a user does not want to use containers to install Miniconda with Jupyter Hub or Lab, the user can do the following:
 
@@ -76,7 +76,7 @@ export CONTAINER_NAME="test-centos8" && bash docker_jupyterlab.sh centos:8
     : ${TOKEN:="$( date | sha256sum | base64 | head -c 32 )"}
     : ${NOTEBOOK_DIR:="$( mktemp -d -t jupyter-dirXXXXX )"}
     ```
-    So you can either pass an environment variable like this before you run the script or write them at the top the installation script to override the default values above.
+    So you can either pass an environment variable like this before you run the script or write them at the top the installation script to override the default values above. If you are looking to do this with docker make sure that you pass the environment variables under the function `run_docker` inside the file `docker_jupyterlab.sh`
     ```bash
     export TOKEN="mysuperawesometoken12345"
     export NOTEBOOK_DIR="/myhomedirectory/notebooks"

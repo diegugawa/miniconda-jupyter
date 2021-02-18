@@ -63,58 +63,41 @@ install_jupyterhub () {
     # Install Jupyter Hub with SystemdSpawner
     "${MINICONDA_HOME}"/envs/"${VENV}"/bin/pip install jupyterhub-systemdspawner
 
+    # Create the folder structure for Jupyter Hub
+    mkdir -p "${JUPYTERHUB_HOME}"/certs
+    mkdir -p "${JUPYTERHUB_HOME}"/bin
+    mkdir -p "${JUPYTERHUB_HOME}"/conf
+
     # Test later with 'dockerspawner'
     #"${MINICONDA_HOME}"/envs/"${VENV}"/bin/pip install dockerspawner
 }
 
-configure_jupyterhub() {
-    # The script below will generate a 'jupyterhub_config.py' file if this is not found.
+jupyterhub_startupscript () {
+    # The text below will generate a script that will source the file 'jupyterhub_config.py' if this is not found.
     # This is for debugging, but in reality I find very tacky the idea of creating files from a script...
-    if [[ ! -f "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh ]];
-    then
-        cat > "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh <<'EOF'
+    cat > "${JUPYTERHUB_HOME}"/bin/start-jupyterhub.sh <<EOF
 #!/usr/bin/env bash
 
 #set -ex pipefail
 
-if [[ -z "${MINICONDA_HOME}" ]]
-then
-    MACHINE_TYPE="$( uname -s )"
-    case "${MACHINE_TYPE}" in
-        Darwin* )
-            : ${MINICONDA_HOME:="${HOME}/miniconda"}
-            export MINICONDA_HOME
-            ;;
-        Linux*)
-            : ${MINICONDA_HOME:='/opt/miniconda'}
-            export MINICONDA_HOME
-            ;;
-        * )
-            echo "This OS is currently not supported. Exiting script."
-            exit 1
-            ;;
-    esac
-fi
-
-: ${JUPYTERHUB_HOME:="${MINICONDA_HOME}/jupyterhub"}
-
 if ! type -P "conda" >/dev/null;
 then
-    source "${MINICONDA_HOME}"/etc/profile.d/conda.sh
+    source ${MINICONDA_HOME}/etc/profile.d/conda.sh
 fi
 
 # Activate conda environment "jupyterhub"
 conda activate jupyterhub
 
-if [ ! -f "${JUPYTERHUB_HOME}/conf/jupyterhub_config.py" ];
+if [[ ! -f "${JUPYTERHUB_HOME}/conf/jupyterhub_config.py" ]];
 then
-    cd "${JUPYTERHUB_HOME}/conf"
+    cd ${JUPYTERHUB_HOME}/conf
     jupyterhub --generate-config
-    sed -i -e "s|#c.Spawner.default_url = ''|c.Spawner.default_url = '/lab'|g" "${JUPYTERHUB_HOME}/conf/jupyterhub_config.py"
+    sed -i -e "s|#c.Spawner.default_url = ''|c.Spawner.default_url = '/lab'|g" ${JUPYTERHUB_HOME}/conf/jupyterhub_config.py
 fi
-exec jupyterhub -f "${JUPYTERHUB_HOME}/conf/jupyterhub_config.py"
+
+# Start Jupyter Hub
+exec jupyterhub -f ${JUPYTERHUB_HOME}/conf/jupyterhub_config.py
 EOF
-    fi
 }
 
 # Create some local Jupyter Hub users to login
@@ -137,14 +120,14 @@ Creating local users for Jupyter Hub
     done
     echo "
 
-    Local users have been created. Store this information somewhere or print the file '""${CREDENTIALS_FILE}""'.
+Local users have been created. Store this information somewhere or print the file '""${CREDENTIALS_FILE}""'.
 
     "
 }
 
 jupyterhub_sanity
 install_jupyterhub
-configure_jupyterhub
+jupyterhub_startupscript
 create_test_user
 
 # Start jupyterhub in the background
