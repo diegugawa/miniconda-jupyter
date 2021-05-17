@@ -15,7 +15,14 @@ The current list of supported environments is the following:
   * [Table of contents](#table-of-contents)
   * [Running Jupyter Hub or Lab in Docker](#running-jupyter-hub-or-lab-in-docker)
   * [Installing Jupyter Hub or Lab without Docker](#installing-jupyter-hub-or-lab-without-docker)
+  * [Using  different operating systems](#using--different-operating-systems)
   * [Information about the files and what they do](#information-about-the-files-and-what-they-do)
+
+
+## Prerequisites
+* Docker 19.x or above
+* Mac OS or Linux
+* 10GB of free disk space
 
 
 ## Running Jupyter Hub or Lab in Docker
