@@ -75,6 +75,7 @@ install_miniconda() {
 
 # Confirm the operating system before installing miniconda
 main () {
+    MACHINE_HARDWARE="$( uname -m )"
     MACHINE_TYPE="$( uname -s )"
     case "${MACHINE_TYPE}" in
         Darwin* )
