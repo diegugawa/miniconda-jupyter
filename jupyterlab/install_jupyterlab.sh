@@ -82,7 +82,7 @@ ${MINICONDA_HOME}/envs/${VENV}/bin/jupyter lab \
   --allow-root \
   --NotebookApp.ip=0.0.0.0 \
   --NotebookApp.token="${TOKEN}" \
-  --NotebookApp.notebook_dir="${NOTEBOOK_DIR}" &
+  --NotebookApp.notebook_dir="${NOTEBOOK_DIR}"
 
 echo "Starting Jupyter Lab in the background. Ignore any new lines."
 EOF
