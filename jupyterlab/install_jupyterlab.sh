@@ -96,7 +96,7 @@ install_jupyterlab
 jupyterlab_startupscript
 
 # Start jupyterlab in the background
-chmod +x "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh
+chmod a+x "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh
 nohup "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh >> /tmp/jupyterlab_audit.log 2>&1 &
 
 ###### END of JUPYTERLAB section ######
