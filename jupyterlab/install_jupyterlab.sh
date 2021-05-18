@@ -72,22 +72,19 @@ jupyterlab_startupscript () {
 
 #set -ex pipefail
 
-if ! type -P "conda" >/dev/null;
-then
-    source "${MINICONDA_HOME}/etc/profile.d/conda.sh"
-fi
+source "${MINICONDA_HOME}"/etc/profile.d/conda.sh
 
 # Activate conda environment
-conda activate ${MINICONDA_HOME}/envs/${VENV}
+conda activate jupyterlab
 
-# Start jupyterlab in the background
+# Start jupyterlab
 ${MINICONDA_HOME}/envs/${VENV}/bin/jupyter lab \
   --allow-root \
   --NotebookApp.ip=0.0.0.0 \
   --NotebookApp.token="${TOKEN}" \
-  --NotebookApp.notebook_dir="${NOTEBOOK_DIR}" &
+  --NotebookApp.notebook_dir="${NOTEBOOK_DIR}"
 
-echo "Starting Jupyter Lab in the background. Ignore any new lines."
+echo "Starting Jupyter Lab"
 EOF
 }
 

@@ -80,10 +80,7 @@ jupyterhub_startupscript () {
 
 #set -ex pipefail
 
-if ! type -P "conda" >/dev/null;
-then
-    source ${MINICONDA_HOME}/etc/profile.d/conda.sh
-fi
+source "${MINICONDA_HOME}"/etc/profile.d/conda.sh
 
 # Activate conda environment "jupyterhub"
 conda activate jupyterhub
