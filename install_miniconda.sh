@@ -75,13 +75,14 @@ install_miniconda() {
 
 # Confirm the operating system before installing miniconda
 main () {
+    MACHINE_HARDWARE="$( uname -m )"
     MACHINE_TYPE="$( uname -s )"
     case "${MACHINE_TYPE}" in
         Darwin* )
             : ${MINICONDA_HOME:="${HOME}/miniconda"}
             export MINICONDA_HOME
             miniconda_sanity
-            MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-MacOSX-x86_64.sh"
+            MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-MacOSX-${MACHINE_HARDWARE}.sh"
             announcement
             install_miniconda
             ;;
@@ -89,7 +90,7 @@ main () {
             : ${MINICONDA_HOME:='/opt/miniconda'}
             export MINICONDA_HOME
             miniconda_sanity
-            MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-Linux-x86_64.sh"
+            MINICONDA_INSTALLER="Miniconda3-py38_${MINICONDA_VERSION}-Linux-${MACHINE_HARDWARE}.sh"
             LINUX_TYPE="$( cat /etc/os-release | grep -i 'ID_LIKE' )"
             case "${LINUX_TYPE}" in
                 # Centos and Red Hat
