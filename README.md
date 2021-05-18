@@ -99,7 +99,7 @@ The reason for doing this, it's so in the event that these scripts are used for 
     : ${TOKEN:="$( date | sha256sum | base64 | head -c 32 )"}
     : ${NOTEBOOK_DIR:="$( mktemp -d -t jupyter-dirXXXXX )"}
     ```
-    So you can either pass an environment variable like this before you run the script or write them at the top the installation script to override the default values above. If you are looking to do this with docker make sure that you pass the environment variables under the function `run_docker` inside the file `docker_jupyterlab.sh`
+    So you can either pass an environment variable like this before you run the script or write them at the top the installation script to override the default values above. If you are looking to do this with docker make sure that you pass the environment variables under the function `run_docker` inside the file `docker_jupyter<lab or hub>.sh`
     ```bash
     export TOKEN="mysuperawesometoken12345"
     export NOTEBOOK_DIR="/myhomedirectory/notebooks"
