@@ -52,8 +52,8 @@ This will install the base script to run miniconda, and export the necessary var
 
 2. Install the applications Jupyter Hub or Lab
 After Miniconda has been install, now you can access one of the folders `jupyterhub` or `jupyterlab` and then run the script for either of these projects:
-    * For Jupyter Lab run `install_jupyterlab.sh`
-    * For Jupyter Hub run `install_jupyterhub.sh`
+    * To install Jupyter Lab run `bash install_jupyterlab.sh`
+    * To install Jupyter Hub run `bash install_jupyterhub.sh`
 
 These scripts will read either of the `requirements.txt` files from these folders. Remember to update the file with the packages that make sense to you.
 
