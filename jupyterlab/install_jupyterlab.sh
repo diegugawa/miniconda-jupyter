@@ -78,7 +78,7 @@ then
 fi
 
 # Activate conda environment
-conda activate
+conda activate ${MINICONDA_HOME}/envs/${VENV}
 
 # Start jupyterlab in the background
 ${MINICONDA_HOME}/envs/${VENV}/bin/jupyter lab \
@@ -96,6 +96,7 @@ install_jupyterlab
 jupyterlab_startupscript
 
 # Start jupyterlab in the background
-bash "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh &
+chmod a+x "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh
+nohup "${MINICONDA_HOME}"/envs/"${VENV}"/bin/start-jupyterlab.sh >> /tmp/jupyterlab_audit.log 2>&1 &
 
 ###### END of JUPYTERLAB section ######
